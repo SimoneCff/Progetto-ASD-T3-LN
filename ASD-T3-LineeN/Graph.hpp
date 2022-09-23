@@ -156,9 +156,9 @@ template <class T> void Graph<T>::MST_Kruskal(){
     while(!SecMST.empty()){
         Edge<T> * u = SecMST.front();
         SecMST.pop();
-        tempnam = Totalw - u->getWeight();
-        if(tempnam < secondw) {
-            secondw=tempnam;
+        tempw = Totalw - u->getWeight();
+        if(tempw < secondw) {
+            secondw=tempw;
             removedEdge=u;
             }
         }
