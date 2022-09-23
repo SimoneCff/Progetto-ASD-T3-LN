@@ -141,9 +141,10 @@ template <class T> void Graph<T>::MST_Kruskal(){
     cout << "= "<< Totalw << endl;
     
     //Secondo MST
-    vector<Edge<T> *> B;
+    vector<Edge<T> *> B, TB;
     queue <Edge<T> *> SecMST;
-    int secondw , tempw;
+    int secondw = 9999999;
+    int tempw;
 
     //Popolamento Queue
     for(auto&a : A){
@@ -155,16 +156,18 @@ template <class T> void Graph<T>::MST_Kruskal(){
         Edge<T> * u = SecMST.front();
         SecMST.pop();
         //Calcolo MST Escludendo l'edge u
-        B = MST_SecKrustal(u);
+        TB = MST_SecKrustal(u);
         //Calcolo peso tot
-        for(auto&a : B){
+        tempw = 0;
+        for(auto&a : TB){
             	tempw= tempw + a->getWeight();
         }
-        if(tempw < secondw || secondw==0) {
+        if(tempw < secondw) {
             secondw=tempw;
+            B = TB;
             }
         }
-    
+        
     cout << "MST : con costo succesivo "<< endl;
     for (auto& x: B){
         cout << x->getSource()->getID() << "->" << x->getDestination()->getID() << "; ";
