@@ -54,7 +54,7 @@ public:
     
 //   void MST_Prim(Vertex<T> * r);
     void MST_Kruskal();
-    void MST_SKruskal();
+    vector<Edge<T> *> MST_SecKrustal(Edge<T> * Excluded);
     
 };
 
@@ -115,17 +115,15 @@ template <class T> void Graph<T>::MST_Kruskal(){
     DisjoinSets<int> dist = *new DisjoinSets<int>(size);
     vector<Edge<T> *> A = *new vector<Edge<T>*>;
     int Totalw = 0;
-    int secondw = 0;
-    int tempw;
-    
-    for (auto& v: *getVertices()){
-        dist.make_set(v->getData());
-    }
+
     
     sort(getEdges()->begin(),getEdges()->end(),[] (Edge<T> * v1,Edge<T> * v2 ){
         return v1->getWeight() < v2->getWeight();
     });
-    
+
+     for (auto& v: *getVertices()){
+        dist.make_set(v->getData());
+    }
     
     for (auto& e: *getEdges()){
         if (dist.Find_set(e->getSource()->getData()) != dist.Find_set( e->getDestination()->getData())){
@@ -143,12 +141,12 @@ template <class T> void Graph<T>::MST_Kruskal(){
     cout << "= "<< Totalw << endl;
     
     //Secondo MST
-    vector<Edge<T> *> B = A;
-    Edge<T> * removedEdge;
+    vector<Edge<T> *> B;
     queue <Edge<T> *> SecMST;
+    int secondw , tempw;
 
     //Popolamento Queue
-    for(auto&a : B){
+    for(auto&a : A){
         SecMST.push(a);
     }
     
@@ -156,14 +154,16 @@ template <class T> void Graph<T>::MST_Kruskal(){
     while(!SecMST.empty()){
         Edge<T> * u = SecMST.front();
         SecMST.pop();
-        tempw = Totalw - u->getWeight();
-        if(tempw < secondw) {
+        //Calcolo MST Escludendo l'edge u
+        B = MST_SecKrustal(u);
+        //Calcolo peso tot
+        for(auto&a : B){
+            	tempw= tempw + a->getWeight();
+        }
+        if(tempw < secondw || secondw==0) {
             secondw=tempw;
-            removedEdge=u;
             }
         }
-    //Rimozione Edge
-    B.erase(remove(B.begin(),B.end(),removedEdge), B.end());
     
     cout << "MST : con costo succesivo "<< endl;
     for (auto& x: B){
@@ -172,6 +172,26 @@ template <class T> void Graph<T>::MST_Kruskal(){
     
     cout << "= "<< secondw << endl;
 
+}
+
+template <class T> vector<Edge<T> *> Graph<T>::MST_SecKrustal(Edge<T> * Excluded){
+    int size = getVertices()->size();
+    DisjoinSets<int> dist = *new DisjoinSets<int>(size);
+    vector<Edge<T> *> A = *new vector<Edge<T>*>;
+
+     for (auto& v: *getVertices()){
+        dist.make_set(v->getData());
+    }
+    
+    for (auto& e: *getEdges()){
+        if(e != Excluded) {
+        if (dist.Find_set(e->getSource()->getData()) != dist.Find_set( e->getDestination()->getData())){
+            A.push_back(e);
+            dist.Union(e->getSource()->getData(), e->getDestination()->getData());
+        }
+        }
+    }
+    return A;
 }
 
 
