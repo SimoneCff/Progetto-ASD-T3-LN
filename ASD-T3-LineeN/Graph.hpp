@@ -151,7 +151,7 @@ template <class T> void Graph<T>::MST_Kruskal(){
     for(auto&a : B){
         SecMST.push(a);
     }
-
+    
     //Check Secondo MST
     while(!SecMST.empty()){
         Edge<T> * u = SecMST.front();
@@ -162,13 +162,12 @@ template <class T> void Graph<T>::MST_Kruskal(){
             removedEdge=u;
             }
         }
-
     //Rimozione Edge
-    B.erase(remove(B.begin(),B.end(),removedEdge));
+    B.erase(remove(B.begin(),B.end(),removedEdge), B.end());
     
     cout << "MST : con costo succesivo "<< endl;
     for (auto& x: B){
-        cout << x->getSource()->getID() << "->" << x->getDestination()->getID() << " ";
+        cout << x->getSource()->getID() << "->" << x->getDestination()->getID() << "; ";
     }
     
     cout << "= "<< secondw << endl;
