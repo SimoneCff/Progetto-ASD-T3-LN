@@ -5,13 +5,6 @@
 //  Created by Simone Cioffi on 11/06/22.
 //
 
-/*
-    Per abilitare l'abilità di lettura del file all'interno della cartella del progetto si deve andare su:
-        Product -> Scheme -> Edit Scheme.
-    Dopodiche  poi selezionare : Run -> Options -> Use custom working directory e selezionare la cartella nella quale è situato il file di input.txt
- */
-
-
 #include <iostream>
 #include "Graph.hpp"
 #include "Converter.hpp"
