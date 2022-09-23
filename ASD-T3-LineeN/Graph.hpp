@@ -54,6 +54,7 @@ public:
     
 //   void MST_Prim(Vertex<T> * r);
     void MST_Kruskal();
+    void MST_SKruskal();
     
 };
 
@@ -114,6 +115,8 @@ template <class T> void Graph<T>::MST_Kruskal(){
     DisjoinSets<int> dist = *new DisjoinSets<int>(size);
     vector<Edge<T> *> A = *new vector<Edge<T>*>;
     int Totalw = 0;
+    int secondw = 0;
+    int tempw;
     
     for (auto& v: *getVertices()){
         dist.make_set(v->getData());
@@ -140,24 +143,35 @@ template <class T> void Graph<T>::MST_Kruskal(){
     cout << "= "<< Totalw << endl;
     
     //Secondo MST
-    vector<Edge<T> *> B;
-    
-    //Prende gli archi non present nel primo MST
-    set_difference(getEdges()->begin(), getEdges()->end(), A.begin(), A.end(),
-            inserter(B, B.begin()));  // B = E-A;
-    
-    //Essendo che A e B derivano da E che e stato ordinato in base al peso si sostiuisce il prime elemento di A con il primo elemento di B (ovvero l 'arco piu piccolo di A con l l'arco piu piccolo di B)
-    Totalw= (Totalw-A.at(0)->getWeight()) + B.at(0)->getWeight();
-    A.at(0)=B.at(0);
-    
-    
+    vector<Edge<T> *> B = A;
+    Edge<T> * removedEdge;
+    queue <Edge<T> *> SecMST;
+
+    //Popolamento Queue
+    for(auto&a : B){
+        SecMST.push(a);
+    }
+
+    //Check Secondo MST
+    while(!SecMST.empty()){
+        Edge<T> * u = SecMST.front();
+        SecMST.pop();
+        tempnam = Totalw - u->getWeight();
+        if(tempnam < secondw) {
+            secondw=tempnam;
+            removedEdge=u;
+            }
+        }
+
+    //Rimozione Edge
+    B.erase(remove(B.begin(),B.end(),removedEdge));
     
     cout << "MST : con costo succesivo "<< endl;
-    for (auto& x: A){
+    for (auto& x: B){
         cout << x->getSource()->getID() << "->" << x->getDestination()->getID() << " ";
     }
     
-    cout << "= "<< Totalw << endl;
+    cout << "= "<< secondw << endl;
 
 }
 
