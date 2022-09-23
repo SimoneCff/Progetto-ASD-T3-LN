@@ -12,6 +12,8 @@
 #include "Vertex.hpp"
 #include "DisjoinSets.hpp"
 #include <algorithm>
+#include <queue>
+#include <iostream>
 
 template <class T> class Graph {
 private:
@@ -158,5 +160,7 @@ template <class T> void Graph<T>::MST_Kruskal(){
     cout << "= "<< Totalw << endl;
 
 }
+
+
 #endif /* Graph_h */
 
