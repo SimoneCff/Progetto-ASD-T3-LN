@@ -18,11 +18,14 @@ private:
     int ID; //Id vertex
     T data; // Dato satellite
     vector<Vertex<T> *> * AdjList; //Lista nodi Adiacenti
+
+    // Dati per Prim
+    unsigned int key; // distanza dal vertice s
+    Vertex<T> * pi;// nodo predecessore
     
     void setAdjList(vector<Vertex<T> *> * NewADJ); //Setting Adj
     void setID(int ID);
     void setData(T data);
-
     
 public:
     Vertex(int ID, T data) {
