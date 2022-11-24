@@ -61,7 +61,7 @@ template <class T> void Converter<T>::InitGraph(Graph<T> * graph){
       }
     //inserimento N veritic nell' arco
     for (int v = 0; v<=n; v++){ //Si suppone di base che i vertici vanno da 0 fino ad N
-        graph->addVertex(new Vertex(v, v));
+        graph->addVertex(new Vertex<T>(v, v));
     }
     
     //Puntatore dalla seconda riga fino a quando non incotra una riga vuota
